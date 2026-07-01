@@ -3,6 +3,7 @@ import { neon } from "@neondatabase/serverless";
 import { drizzle } from "drizzle-orm/neon-http";
 import { admins } from "../db/schema";
 import { hashPassword } from "../lib/auth";
+import { eq } from "drizzle-orm";
 
 const sql = neon(process.env.DATABASE_URL!);
 const db = drizzle(sql);
