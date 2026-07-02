@@ -19,8 +19,12 @@ export default function DashboardPage() {
 
   const fetchBooks = useCallback(async () => {
     const data = await getBooks({ page, limit: 20, search, status: statusFilter, sort, order });
-    setBooks(data.books);
-    setTotal(data.total);
+    if (data.error) {
+      console.error(data.error);
+    } else {
+      setBooks(data.books || []);
+      setTotal(data.total || 0);
+    }
   }, [page, search, statusFilter, sort, order]);
 
   useEffect(() => {
@@ -28,8 +32,12 @@ export default function DashboardPage() {
   }, [fetchBooks]);
 
   const handleDelete = async (id: number) => {
-    await deleteBook(id);
-    fetchBooks();
+    const res = await deleteBook(id);
+    if (res?.error) {
+      alert(res.error);
+    } else {
+      fetchBooks();
+    }
   };
 
   return (

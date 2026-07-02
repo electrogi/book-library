@@ -25,12 +25,19 @@ export default function BookForm({ book, onClose, onSaved }: any) {
       publishedYear: form.publishedYear ? Number(form.publishedYear) : undefined,
       pageCount: form.pageCount ? Number(form.pageCount) : undefined,
     };
+    
+    let res;
     if (book) {
-      await updateBook(book.id, data);
+      res = await updateBook(book.id, data);
     } else {
-      await createBook(data);
+      res = await createBook(data);
     }
-    onSaved();
+    
+    if (res?.error) {
+      alert(res.error);
+    } else {
+      onSaved();
+    }
   };
 
   return (

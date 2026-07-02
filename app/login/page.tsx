@@ -7,7 +7,10 @@ export default function LoginPage() {
 
   const handleSubmit = async (formData: FormData) => {
     try {
-      await login(formData);
+      const res = await login(formData);
+      if (res?.error) {
+        setError(res.error);
+      }
     } catch (e: any) {
       setError(e.message || "Login failed");
     }
